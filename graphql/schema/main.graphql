@@ -1,0 +1,51 @@
+## Category
+type Category {
+  _id: ID!
+  name: String!
+  articles: [Article!]
+}
+input categoryInput {
+  name: String!
+}
+input categoryInputUpdate {
+  _id: String
+  name: String
+}
+## Article
+type Article {
+  _id: ID!
+  category: Category
+  title: String!
+  body: String!
+  createAt: String!
+}
+input ArticelInput {
+  category: ID!
+  title: String!
+  body: String!
+}
+input ArticelInputUpdate {
+  _id: String!
+  category: String
+  title: String
+  body: String
+}
+
+type Query {
+  ##Category
+  categories: [Category!]
+  ##Article
+  articles(skip: Int, first: Int): [Article!]
+}
+type Mutation {
+  ##Category
+  createCategory(category: categoryInput): Category
+  updateCategory(category: categoryInputUpdate): Category
+  ##Article
+  createArticle(article: ArticelInput): Article
+  updateArticle(article: ArticelInputUpdate): Article
+}
+schema {
+  query: Query
+  mutation: Mutation
+}
