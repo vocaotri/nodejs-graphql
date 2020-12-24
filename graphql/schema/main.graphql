@@ -30,6 +30,25 @@ input ArticelInputUpdate {
   title: String
   body: String
 }
+## User
+type User {
+  _id: ID!
+  name: String!
+  email: String!
+  password: String!
+  accesstoken: String
+}
+### Register
+input RegisterInput {
+  name: String!
+  email: String!
+  password: String!
+}
+### Login
+input LoginInput {
+  email: String!
+  password: String!
+}
 
 type Query {
   ##Category
@@ -44,6 +63,10 @@ type Mutation {
   ##Article
   createArticle(article: ArticelInput): Article
   updateArticle(article: ArticelInputUpdate): Article
+  ##Register
+  register(register: RegisterInput): User
+  ##Login
+  login(login: LoginInput): User
 }
 schema {
   query: Query
