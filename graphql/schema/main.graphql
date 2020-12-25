@@ -19,12 +19,12 @@ type Article {
   body: String!
   createAt: String!
 }
-input ArticelInput {
+input ArticleInput {
   category: ID!
   title: String!
   body: String!
 }
-input ArticelInputUpdate {
+input ArticleInputUpdate {
   _id: String!
   category: String
   title: String
@@ -36,7 +36,7 @@ type User {
   name: String!
   email: String!
   password: String!
-  accesstoken: String
+  access_token: String
 }
 ### Register
 input RegisterInput {
@@ -61,8 +61,8 @@ type Mutation {
   createCategory(category: categoryInput): Category
   updateCategory(category: categoryInputUpdate): Category
   ##Article
-  createArticle(article: ArticelInput): Article
-  updateArticle(article: ArticelInputUpdate): Article
+  createArticle(article: ArticleInput): Article
+  updateArticle(article: ArticleInputUpdate): Article
   ##Register
   register(register: RegisterInput): User
   ##Login
