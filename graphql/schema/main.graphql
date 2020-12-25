@@ -68,7 +68,7 @@ type Mutation {
   ##Login
   login(login: LoginInput): User
 }
-schema {
-  query: Query
-  mutation: Mutation
+##Realtime createCategory
+type Subscription {
+  messageAddCategory: Category
 }
