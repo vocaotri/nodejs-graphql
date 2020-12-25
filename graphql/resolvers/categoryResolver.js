@@ -1,5 +1,5 @@
 const Category = require("../../models/category");
-const authJWT = require('../../util/function');
+const authJWT = require('../../utils/JWTToken');
 module.exports = {
     categories: async() => {
         try {
@@ -35,13 +35,18 @@ module.exports = {
         }
     },
 
-    updateCategory: async(args) => {
+    updateCategory: async(args, context) => {
         try {
             const { _id, name } = args.category;
             const category = await Category.findById(_id);
             category.name = name;
-            const newCategory = await category.save();
-            return {...newCategory._doc, _id: newCategory.id };
+            const token = context.headers.authorization.split(" ")[1];
+            const user = await authJWT.verifyAccessToken(token);
+            if (Object.keys(user).length > 0) {
+                const newCategory = await category.save();
+                return {...newCategory._doc, _id: newCategory.id };
+            } else
+                throw new Error("Token failed")
         } catch (error) {
             throw error;
         }

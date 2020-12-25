@@ -1,6 +1,6 @@
 const User = require("../../models/user");
 const bcrypt = require("bcrypt");
-const authJWT = require("../../util/function");
+const authJWT = require("../../utils/JWTToken");
 const user = require("../../models/user");
 const saltRounds = 11;
 module.exports = {
