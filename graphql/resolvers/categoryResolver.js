@@ -1,10 +1,11 @@
 const Category = require("../../models/category");
 const authJWT = require('../../utils/JWTToken');
+const { PubSub, withFilter } = require('graphql-subscriptions');
+const pubsub = new PubSub();
 module.exports = {
     categories: async() => {
         try {
             const categoryFetched = await Category.find().populate("articles");
-            console.log(categoryFetched);
             return categoryFetched.map((category) => {
                 return {
                     ...category._doc,
@@ -27,6 +28,7 @@ module.exports = {
             const user = await authJWT.verifyAccessToken(token);
             if (Object.keys(user).length > 0) {
                 const newCategory = await category.save();
+                pubsub.publish('category', {...newCategory._doc });
                 return {...newCategory._doc, _id: newCategory.id };
             } else
                 throw new Error("Token failed")
@@ -51,4 +53,15 @@ module.exports = {
             throw error;
         }
     },
+    messageAddCategory: async() => {
+        subscribe: withFilter(
+            (rootValue, args, context, info) => {
+                console.log(rootValue, args, context, info);
+                pubsub.asyncIterator('category')
+            },
+            (payload, variables) => {
+                return true;
+            }
+        )
+    }
 };
