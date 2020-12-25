@@ -30,7 +30,6 @@ module.exports = {
                 return {...newCategory._doc, _id: newCategory.id };
             } else
                 throw new Error("Token failed")
-
         } catch (error) {
             throw error;
         }
